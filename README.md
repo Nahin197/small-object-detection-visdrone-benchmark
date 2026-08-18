@@ -223,6 +223,15 @@ Open any notebook from the [Notebooks Index](#-notebooks-index) above in Kaggle 
 
 **Group 16** — Digital Image Processing Research Project
 
+| Name | 
+|---|
+| Md. Khademul Islam Nahin |
+| Irfanuzzaman Montasir |
+| Md. Abdullah Al Imran |
+| Md. Tahmid Shadhin |
+| Argha Biswas |
+| Md Shakib Al Islam |
+
 ---
 
 ## 📜 License
