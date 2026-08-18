@@ -1,0 +1,8 @@
+# Ignore PDF files (too large / not needed in repo)
+*.pdf
+*.pptx
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+desktop.ini

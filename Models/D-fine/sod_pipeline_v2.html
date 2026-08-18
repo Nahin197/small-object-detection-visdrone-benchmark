@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f8f6f1;
+    padding: 28px 20px 40px;
+    color: #2d2d2d;
+    min-width: 900px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #3b2e1e;
+    margin-bottom: 5px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 12px;
+    color: #7a6a55;
+    margin-bottom: 30px;
+  }
+
+  .arrow       { font-size: 20px; color: #a08060; align-self: center; flex-shrink: 0; padding: 0 4px; }
+  .arrow-down  { text-align: center; font-size: 22px; color: #a08060; margin: 5px 0; }
+
+  /* ═══════════════════════════════
+     SECTION LABEL
+  ═══════════════════════════════ */
+  .section-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #9a8060;
+    margin: 18px 0 8px;
+  }
+
+  /* ═══════════════════════════════
+     SHARED ROW
+  ═══════════════════════════════ */
+  .shared-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: nowrap;
+  }
+  .box {
+    border-radius: 11px;
+    padding: 12px 14px;
+    text-align: center;
+    width: 155px;
+    flex-shrink: 0;
+  }
+  .box .icon  { font-size: 22px; margin-bottom: 5px; }
+  .box .label { font-size: 11.5px; font-weight: 800; line-height: 1.3; color: #1e1e1e; }
+  .box .desc  { font-size: 9.5px; color: #5a4a38; margin-top: 5px; line-height: 1.6; }
+
+  .box-shared  { background: #e8dfd0; border: 2px solid #b89360; }
+  .box-dataset { background: #fdecd8; border: 2px solid #e07820; }
+
+  /* dataset splits row */
+  .splits-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 6px 0;
+  }
+  .split-box {
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .split-train { background: #d4edda; border: 2px solid #28a745; }
+  .split-val   { background: #fff3cd; border: 2px solid #ffc107; }
+  .split-test  { background: #d1ecf1; border: 2px solid #17a2b8; }
+  .split-box .icon  { font-size: 18px; }
+  .split-box .label { font-size: 11px; font-weight: 800; margin: 3px 0 2px; }
+  .split-box .count { font-size: 12px; font-weight: 900; margin: 2px 0; }
+  .split-box .size  { font-size: 9.5px; color: #555; }
+  .split-box .use   { font-size: 9px; color: #333; margin-top: 3px; font-style: italic; }
+
+  /* convert step */
+  .convert-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 6px 0;
+  }
+  .convert-box {
+    background: #fff0f5;
+    border: 2px solid #d04080;
+    border-radius: 11px;
+    padding: 10px 20px;
+    text-align: center;
+  }
+  .convert-box .icon  { font-size: 20px; }
+  .convert-box .label { font-size: 11.5px; font-weight: 800; color: #8a0040; margin: 3px 0 2px; }
+  .convert-box .desc  { font-size: 9.5px; color: #6a3050; line-height: 1.5; }
+
+  /* categories row */
+  .cats-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 6px 0 2px;
+    flex-wrap: wrap;
+  }
+  .cat-pill {
+    background: #f0e8d8;
+    border: 1px solid #c0a060;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 9.5px;
+    font-weight: 600;
+    color: #5a3a10;
+  }
+
+  /* ═══════════════════════════════
+     MODELS ROW
+  ═══════════════════════════════ */
+  .models-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px 0;
+    flex-wrap: nowrap;
+  }
+  .model-box {
+    background: #e8e0f5;
+    border: 2px solid #7050b0;
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align: center;
+    min-width: 108px;
+  }
+  .model-box .icon  { font-size: 16px; }
+  .model-box .name  { font-size: 10.5px; font-weight: 800; color: #3a1a7a; margin: 3px 0 2px; }
+  .model-box .arch  { font-size: 8.5px; color: #5a4a80; line-height: 1.4; }
+
+  /* ═══════════════════════════════
+     FINETUNE ROW
+  ═══════════════════════════════ */
+  .ft-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 4px 0;
+    flex-wrap: nowrap;
+  }
+  .ft-box {
+    background: #e8f4e8;
+    border: 2px solid #50a050;
+    border-radius: 10px;
+    padding: 8px 14px;
+    text-align: center;
+    min-width: 115px;
+  }
+  .ft-box .icon  { font-size: 17px; }
+  .ft-box .label { font-size: 10.5px; font-weight: 800; color: #1a5a1a; margin: 3px 0 2px; }
+  .ft-box .desc  { font-size: 9px; color: #3a5a3a; line-height: 1.5; }
+
+  /* ═══════════════════════════════
+     TWO PHASES
+  ═══════════════════════════════ */
+  .phases-row {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    margin: 4px 0;
+  }
+  .phase-block {
+    flex: 1;
+    border-radius: 14px;
+    padding: 16px 14px 14px;
+  }
+  .phase1-block { background: #edf4fb; border: 2.5px solid #5b9fd4; }
+  .phase2-block { background: #edfaec; border: 2.5px solid #55b555; }
+
+  .phase-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 14px;
+    padding: 6px 10px;
+    border-radius: 9px;
+  }
+  .phase1-title { background: #5b9fd4; color: #fff; }
+  .phase2-title { background: #55b555; color: #fff; }
+
+  .phase-steps { display: flex; flex-direction: column; align-items: center; }
+
+  .phase-box {
+    width: 100%;
+    border-radius: 9px;
+    padding: 9px 11px;
+    text-align: center;
+  }
+  .p1-box      { background: #ddeaf5; border: 1.5px solid #5b9fd4; }
+  .p2-box      { background: #dff5dd; border: 1.5px solid #55b555; }
+  .p1-box-dash { background: #cce0f0; border: 2px dashed #5b9fd4; }
+  .p2-box-dash { background: #c8f0c5; border: 2px dashed #55b555; }
+
+  .phase-box .icon  { font-size: 18px; }
+  .phase-box .label { font-size: 11px; font-weight: 700; margin: 3px 0 2px; color: #1e1e1e; }
+  .phase-box .desc  { font-size: 9.5px; color: #3a3a3a; line-height: 1.5; }
+
+  .ph-arrow { text-align: center; font-size: 18px; margin: 4px 0; }
+  .ph1 { color: #5b9fd4; }
+  .ph2 { color: #55b555; }
+
+  /* ═══════════════════════════════
+     GATE
+  ═══════════════════════════════ */
+  .gate-section { margin: 10px 0 6px; text-align: center; }
+  .gate-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    background: #fffbe8;
+    border: 2.5px dashed #d4a000;
+    border-radius: 40px;
+    padding: 10px 28px;
+  }
+  .gate-center .gate-label { font-size: 13px; font-weight: 800; color: #7a5c00; }
+  .gate-center .gate-sub   { font-size: 9.5px; color: #8a7000; margin-top: 2px; }
+  .yes-lbl { font-size: 10.5px; font-weight: 800; color: #267a00; text-align: center; }
+  .no-lbl  { font-size: 10.5px; font-weight: 800; color: #c03000; text-align: center; }
+  .lbl-sub { font-size: 9px; margin-top: 2px; }
+
+  /* ═══════════════════════════════
+     FINAL ROW
+  ═══════════════════════════════ */
+  .final-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    margin-top: 6px;
+    flex-wrap: nowrap;
+  }
+  .final-box {
+    background: #f0e6ff;
+    border: 2px solid #9060cc;
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    width: 148px;
+    flex-shrink: 0;
+  }
+  .final-box .icon  { font-size: 20px; }
+  .final-box .label { font-size: 11px; font-weight: 800; color: #4a1a8a; margin: 3px 0 2px; }
+  .final-box .desc  { font-size: 9.5px; color: #5a4e40; line-height: 1.5; }
+
+  /* ═══════════════════════════════
+     LEGEND
+  ═══════════════════════════════ */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 26px;
+    flex-wrap: wrap;
+  }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: #4a3e30; }
+  .leg-dot  { width: 13px; height: 13px; border-radius: 4px; flex-shrink: 0; }
+
+  /* ═══════════════════════════════
+     SKIP NOTE
+  ═══════════════════════════════ */
+  .skip-note {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 6px 0 2px;
+  }
+  .skip-pill {
+    background: #fde8e8;
+    border: 1px solid #e06060;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 9px;
+    color: #902020;
+    font-weight: 600;
+  }
+
+  hr.divider {
+    border: none;
+    border-top: 1.5px dashed #d0c0a0;
+    margin: 18px 0 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>🔬 Small-Object Detection Benchmarking Pipeline</h1>
+<p class="subtitle">VisDrone-DET (Task 1) · 6 Models · Phase 1: Without SAHI → Validate → Phase 2: With SAHI</p>
+
+<!-- ══════════════════════════════════════
+     STEP 1 — DATASET
+══════════════════════════════════════ -->
+<div class="section-label">① Dataset — VisDrone-DET (Task 1 Only)</div>
+
+<div style="display:flex; justify-content:center; margin-bottom:6px;">
+  <div class="box box-dataset" style="width:auto; padding:10px 24px;">
+    <div class="icon">🛸</div>
+    <div class="label">VisDrone2019 — Object Detection in Images</div>
+    <div class="desc">Task 1 selected · Static images only · GT available on test-dev ✅<br>
+    10 categories · avg object size ~22×22 px · dense UAV scenes</div>
+  </div>
+</div>
+
+<!-- Categories -->
+<div class="cats-row">
+  <div class="cat-pill">🚶 Pedestrian</div>
+  <div class="cat-pill">🧍 Person</div>
+  <div class="cat-pill">🚗 Car</div>
+  <div class="cat-pill">🚐 Van</div>
+  <div class="cat-pill">🚌 Bus</div>
+  <div class="cat-pill">🚚 Truck</div>
+  <div class="cat-pill">🛵 Motor</div>
+  <div class="cat-pill">🚲 Bicycle</div>
+  <div class="cat-pill">🛺 Awning-Tricycle</div>
+  <div class="cat-pill">🛺 Tricycle</div>
+</div>
+
+<!-- Tasks skipped -->
+<div style="text-align:center; font-size:9.5px; color:#a05030; margin: 7px 0 4px; font-weight:700;">
+  ❌ Tasks Skipped (not relevant to image object detection):
+</div>
+<div class="skip-note">
+  <div class="skip-pill">Task 2: Video Detection (temporal)</div>
+  <div class="skip-pill">Task 3: Single-Object Tracking</div>
+  <div class="skip-pill">Task 4: Multi-Object Tracking</div>
+  <div class="skip-pill">Task 5: Crowd Counting</div>
+  <div class="skip-pill">testset-challenge (no GT)</div>
+</div>
+
+<div class="arrow-down">⬇</div>
+
+<!-- Splits -->
+<div class="splits-row">
+  <div class="split-box split-train">
+    <div class="icon">📂</div>
+    <div class="label">Train Set</div>
+    <div class="count">6,471 images</div>
+    <div class="size">1.44 GB</div>
+    <div class="use">Fine-tune all 6 models</div>
+  </div>
+  <div class="split-box split-val">
+    <div class="icon">📂</div>
+    <div class="label">Val Set</div>
+    <div class="count">548 images</div>
+    <div class="size">0.07 GB</div>
+    <div class="use">Monitor training / tune hyperparameters</div>
+  </div>
+  <div class="split-box split-test">
+    <div class="icon">📂</div>
+    <div class="label">Test-Dev Set</div>
+    <div class="count">1,610 images</div>
+    <div class="size">0.28 GB</div>
+    <div class="use">Final eval & reporting (GT ✅)</div>
+  </div>
+</div>
+
+<div class="arrow-down">⬇</div>
+
+<!-- Format Conversion -->
+<div class="convert-row">
+  <div class="convert-box">
+    <div class="icon">🔄</div>
+    <div class="label">Format Conversion — VisDrone → COCO JSON</div>
+    <div class="desc">Raw VisDrone .txt annotations → COCO JSON format using VisDrone2COCO script<br>
+    Required for GOLD-YOLO · DAMO-YOLO · NanoDet+ · D-FINE · YOLOv12n · RF-DETR compatibility</div>
+  </div>
+</div>
+
+<div class="arrow-down">⬇</div>
+
+<!-- ══════════════════════════════════════
+     STEP 2 — PREPROCESSING
+══════════════════════════════════════ -->
+<div class="section-label">② Preprocessing</div>
+<div class="shared-row">
+  <div class="box box-shared">
+    <div class="icon">📐</div>
+    <div class="label">Resize Images</div>
+    <div class="desc">All images → 640×640 px<br>Same input for all 6 models</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="box box-shared">
+    <div class="icon">🎨</div>
+    <div class="label">Augmentation</div>
+    <div class="desc">Mosaic · Flip · HSV shift<br>Applied on train split only</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="box box-shared">
+    <div class="icon">🔒</div>
+    <div class="label">Fixed Settings</div>
+    <div class="desc">Same random seed<br>Same hardware · Same eval scripts</div>
+  </div>
+</div>
+
+<div class="arrow-down">⬇</div>
+
+<!-- ══════════════════════════════════════
+     STEP 3 — MODELS
+══════════════════════════════════════ -->
+<div class="section-label">③ 6 Models Selected</div>
+<div class="models-row">
+  <div class="model-box">
+    <div class="icon">🟡</div>
+    <div class="name">GOLD-YOLO</div>
+    <div class="arch">CNN + Gather-Distribute neck</div>
+  </div>
+  <div class="model-box">
+    <div class="icon">🟠</div>
+    <div class="name">DAMO-YOLO</div>
+    <div class="arch">NAS backbone + RepGFPN</div>
+  </div>
+  <div class="model-box">
+    <div class="icon">🟢</div>
+    <div class="name">NanoDet-Plus</div>
+    <div class="arch">Ultra-light anchor-free edge</div>
+  </div>
+  <div class="model-box">
+    <div class="icon">🔵</div>
+    <div class="name">D-FINE</div>
+    <div class="arch">DETR-based fine-grained regression</div>
+  </div>
+  <div class="model-box">
+    <div class="icon">🟣</div>
+    <div class="name">YOLOv12n</div>
+    <div class="arch">Attention-augmented compact YOLO</div>
+  </div>
+  <div class="model-box">
+    <div class="icon">🔴</div>
+    <div class="name">RF-DETR</div>
+    <div class="arch">Transformer baseline (reference)</div>
+  </div>
+</div>
+
+<div class="arrow-down">⬇</div>
+
+<!-- ══════════════════════════════════════
+     STEP 4 — FINE-TUNING
+══════════════════════════════════════ -->
+<div class="section-label">④ Fine-Tuning on VisDrone-DET Train Set</div>
+<div class="ft-row">
+  <div class="ft-box">
+    <div class="icon">⏱️</div>
+    <div class="label">50 Epochs</div>
+    <div class="desc">Same for all models<br>Early stopping on val mAP</div>
+  </div>
+  <div class="ft-box">
+    <div class="icon">📏</div>
+    <div class="label">Input 640×640</div>
+    <div class="desc">Uniform input size<br>across all 6 models</div>
+  </div>
+  <div class="ft-box">
+    <div class="icon">🔑</div>
+    <div class="label">Fixed Random Seed</div>
+    <div class="desc">Reproducible results<br>same init across runs</div>
+  </div>
+  <div class="ft-box">
+    <div class="icon">💾</div>
+    <div class="label">Best Checkpoint</div>
+    <div class="desc">Save best val-mAP<br>checkpoint per model</div>
+  </div>
+  <div class="ft-box">
+    <div class="icon">🖥️</div>
+    <div class="label">Identical Hardware</div>
+    <div class="desc">Same GPU for all<br>fair FPS comparison</div>
+  </div>
+</div>
+
+<div class="arrow-down">⬇</div>
+
+<!-- ══════════════════════════════════════
+     STEPS 5 & 6 — TWO PHASES
+══════════════════════════════════════ -->
+<div class="section-label">⑤ Inference & Evaluation — Two Phases</div>
+<div class="phases-row">
+
+  <!-- PHASE 1 -->
+  <div class="phase-block phase1-block">
+    <div class="phase-title phase1-title">🔵 PHASE 1 — Without SAHI (Baseline)</div>
+    <div class="phase-steps">
+
+      <div class="phase-box p1-box">
+        <div class="icon">🖼️</div>
+        <div class="label">Standard Full-Image Inference</div>
+        <div class="desc">Full 640×640 image fed directly · no slicing · standard NMS · run on test-dev (1,610 images)</div>
+      </div>
+      <div class="ph-arrow ph1">↓</div>
+
+      <div class="phase-box p1-box">
+        <div class="icon">📊</div>
+        <div class="label">Evaluate All 6 Models</div>
+        <div class="desc">mAP@0.5 · AP_S · AP_M · Recall<br>FPS · GFLOPs · GPU Memory</div>
+      </div>
+      <div class="ph-arrow ph1">↓</div>
+
+      <div class="phase-box p1-box">
+        <div class="icon">🗂️</div>
+        <div class="label">Per-Class AP_S (10 categories)</div>
+        <div class="desc">Pedestrian · Person · Car · Van · Bus · Truck · Motor · Bicycle · Tricycle variants</div>
+      </div>
+      <div class="ph-arrow ph1">↓</div>
+
+      <div class="phase-box p1-box">
+        <div class="icon">⚡</div>
+        <div class="label">Speed vs Accuracy Plot</div>
+        <div class="desc">FPS vs mAP scatter · rank by Pareto efficiency · identify best edge vs server models</div>
+      </div>
+      <div class="ph-arrow ph1">↓</div>
+
+      <div class="phase-box p1-box-dash">
+        <div class="icon">📋</div>
+        <div class="label">Baseline Results Logged</div>
+        <div class="desc">Save all metrics as Phase 1 reference<br>for ΔAP_S · ΔRecall · ΔFPS in Phase 2</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-block phase2-block">
+    <div class="phase-title phase2-title">🟢 PHASE 2 — With SAHI (Sliced Inference)</div>
+    <div class="phase-steps">
+
+      <div class="phase-box p2-box">
+        <div class="icon">✂️</div>
+        <div class="label">SAHI Sliced Inference</div>
+        <div class="desc">Slice each image into 256/512px tiles · ~20% overlap · run model per tile · merge with NMS</div>
+      </div>
+      <div class="ph-arrow ph2">↓</div>
+
+      <div class="phase-box p2-box">
+        <div class="icon">📊</div>
+        <div class="label">Evaluate All 6 Models</div>
+        <div class="desc">Same metrics as Phase 1 · same hardware · same eval scripts for direct comparison</div>
+      </div>
+      <div class="ph-arrow ph2">↓</div>
+
+      <div class="phase-box p2-box">
+        <div class="icon">🗂️</div>
+        <div class="label">Per-Class AP_S (10 categories)</div>
+        <div class="desc">Same categories · identify which classes gain most recall from slicing</div>
+      </div>
+      <div class="ph-arrow ph2">↓</div>
+
+      <div class="phase-box p2-box">
+        <div class="icon">🐢</div>
+        <div class="label">Speed vs Accuracy Plot</div>
+        <div class="desc">FPS drop from slicing overhead vs AP_S gain · is the tradeoff worth it per model?</div>
+      </div>
+      <div class="ph-arrow ph2">↓</div>
+
+      <div class="phase-box p2-box-dash">
+        <div class="icon">📋</div>
+        <div class="label">SAHI Results Logged</div>
+        <div class="desc">ΔAP_S · ΔRecall · ΔFPS per model vs Phase 1<br>SAHI compatibility score per architecture</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- VALIDATION GATE -->
+<div class="arrow-down">⬇</div>
+<div class="gate-section">
+  <div class="gate-wrap">
+    <div>
+      <div class="no-lbl">✗ Low accuracy?</div>
+      <div class="lbl-sub no-lbl">Revisit training, augmentation<br>or hyperparameters</div>
+    </div>
+    <div class="gate-center">
+      <div class="gate-label">⚖️ Validation Gate</div>
+      <div class="gate-sub">Is Phase 1 mAP / AP_S acceptable?<br>If yes → confirm baselines and proceed with SAHI</div>
+    </div>
+    <div>
+      <div class="yes-lbl">✓ Good accuracy?</div>
+      <div class="lbl-sub yes-lbl">Baselines confirmed →<br>proceed to Phase 2</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FINAL ANALYSIS
+══════════════════════════════════════ -->
+<div class="arrow-down">⬇</div>
+<div class="section-label">⑥ Final Analysis & Reporting</div>
+<div class="final-row">
+  <div class="final-box">
+    <div class="icon">🔥</div>
+    <div class="label">SAHI Impact Bars</div>
+    <div class="desc">ΔAP_S & ΔRecall per model with vs without SAHI</div>
+  </div>
+  <div class="arrow" style="font-size:16px;">→</div>
+  <div class="final-box">
+    <div class="icon">🗺️</div>
+    <div class="label">Per-Class Heatmap</div>
+    <div class="desc">Model × Category AP_S matrix across both phases</div>
+  </div>
+  <div class="arrow" style="font-size:16px;">→</div>
+  <div class="final-box">
+    <div class="icon">🏆</div>
+    <div class="label">Model Ranking</div>
+    <div class="desc">Best for accuracy / speed / edge deployment</div>
+  </div>
+  <div class="arrow" style="font-size:16px;">→</div>
+  <div class="final-box">
+    <div class="icon">📄</div>
+    <div class="label">Final Paper</div>
+    <div class="desc">Reproducible results, guidance & deployment recommendations</div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:#e07820;"></div>Dataset (Task 1 Only)</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#d04080;"></div>Format Conversion</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#b89360;"></div>Shared Preprocessing</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#7050b0;"></div>6 Models</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#50a050;"></div>Fine-Tuning</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#5b9fd4;"></div>Phase 1 — Without SAHI</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#55b555;"></div>Phase 2 — With SAHI</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#d4a000;"></div>Validation Gate</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#9060cc;"></div>Final Analysis</div>
+</div>
+
+</body>
+</html>
