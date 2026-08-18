@@ -15,13 +15,7 @@ The full results and methodology are documented in an **IEEE-formatted research 
 ## 🗂️ Repository Structure
 
 ```
-Dip/
-│
-├── IEEE Group-16.pdf                                         # Full IEEE research paper
-├── DIP_Presentation_v3.pptx.pdf                             # Project presentation slides
-├── Benchmarking-Underexplored-Small-Object-Detection-...pdf # Condensed benchmarking report
-│
-└── Models/
+ Models/
     ├── D-fine/
     │   ├── d-fine-kaggle (4).ipynb                          # D-FINE training pipeline (Kaggle)
     │   ├── d-fine-phase-2 (1).ipynb                         # D-FINE Phase 2 (SAHI inference)
