@@ -164,14 +164,7 @@ PHASE 1 — Baseline                        PHASE 2 — SAHI
 
 ---
 
-## 📄 Publications & Reports
 
-| Document | Description |
-|---|---|
-| [`IEEE Group-16.pdf`](IEEE%20Group-16.pdf) | Full IEEE-formatted research paper |
-| [`DIP_Presentation_v3.pptx.pdf`](DIP_Presentation_v3.pptx.pdf) | Project presentation deck |
-| [`Benchmarking-Underexplored...pdf`](Benchmarking-Underexplored-Small-Object-Detection-Models-on-Aerial-Imagery.pptx.pdf) | Benchmarking summary report |
-| [`sod_pipeline_v2.html`](Models/D-fine/sod_pipeline_v2.html) | Interactive pipeline flowchart |
 
 ---
 
