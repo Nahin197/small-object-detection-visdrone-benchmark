@@ -208,7 +208,7 @@ Open any notebook from the [Notebooks Index](#-notebooks-index) above in Kaggle 
 
 ## 👥 Authors
 
-**Group 16** — Digital Image Processing Research Project
+
 
 | Name | 
 |---|
